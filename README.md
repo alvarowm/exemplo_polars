@@ -31,16 +31,16 @@ PolarsExample/<br>
 Exemplo de valores.csv:
 
 ```csv
-nome,valor<br>
-Notebook,1200.50<br>
-Mini PC,800.00<br>
-Notebook,1500.00<br>
-Mouse,<br>
-Teclado,50.00<br>
+nome,valor
+Notebook,1200.50
+Mini PC,800.00
+Notebook,1500.00
+Mouse,
+Teclado,50.00
 ```
 
-> Observação: O caminho do arquivo está fixo no código como:
-> C:\Users\...\RustroverProjects\PolarsExample\src\valores.csv
+> Observação: O caminho do arquivo está fixo no código como:<br>
+> C:\Users\user\RustroverProjects\PolarsExample\src\valores.csv<br>
 > Recomenda-se ajustar para um caminho relativo (ex: "src/valores.csv") se for compartilhar o projeto.
 
 ## Como Executar
