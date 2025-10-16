@@ -21,7 +21,7 @@ O código em src/main.rs executa as seguintes operações com um arquivo CSV (va
 
 ## Estrutura Esperada
 
-PolarsExample/
+PolarsExample/<br>
 ├── src/<br>
 │   ├── main.rs<br>
 │   └── valores.csv          ← seu arquivo de entrada<br>
@@ -30,15 +30,17 @@ PolarsExample/
 
 Exemplo de valores.csv:
 
-nome,valor
-Notebook,1200.50
-Mini PC,800.00
-Notebook,1500.00
-Mouse,
-Teclado,50.00
+```csv
+nome,valor<br>
+Notebook,1200.50<br>
+Mini PC,800.00<br>
+Notebook,1500.00<br>
+Mouse,<br>
+Teclado,50.00<br>
+```
 
 > Observação: O caminho do arquivo está fixo no código como:
-> C:\Users\D892630\RustroverProjects\PolarsExample\src\valores.csv
+> C:\Users\...\RustroverProjects\PolarsExample\src\valores.csv
 > Recomenda-se ajustar para um caminho relativo (ex: "src/valores.csv") se for compartilhar o projeto.
 
 ## Como Executar
@@ -57,8 +59,10 @@ Após a execução:
 
 Certifique-se de ter no seu Cargo.toml:
 
+```
 [dependencies]
-polars = { version = "0.40", features = ["lazy", "csv", "fill_null"] }
+polars = { version = "0.45.0", features = ["full"] }
+```
 
 Ajuste a versão conforme necessário. A feature "fill_null" é necessária para o preenchimento de nulos.
 
