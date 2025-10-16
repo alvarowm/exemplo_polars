@@ -8,7 +8,7 @@ O código em src/main.rs executa as seguintes operações com um arquivo CSV (va
 
 1. Leitura de um arquivo CSV com cabeçalho.
 2. Estatísticas descritivas da coluna 'valor' (média, desvio padrão, mínimo, máximo, contagem).
-3. Filtragem de linhas onde valor > 150.0.
+3. Filtragem de linhas onde valor > 1000.
 4. Ordenação decrescente pela coluna 'valor'.
 5. Agrupamento por 'nome' com soma dos 'valores'.
 6. Criação de uma nova coluna (valor_dobrado = valor * 2).
@@ -22,11 +22,11 @@ O código em src/main.rs executa as seguintes operações com um arquivo CSV (va
 ## Estrutura Esperada
 
 PolarsExample/
-├── src/
-│   ├── main.rs
-│   └── valores.csv          ← seu arquivo de entrada
-├── valores_processado.csv   ← gerado automaticamente
-└── README.md
+├── src/<br>
+│   ├── main.rs<br>
+│   └── valores.csv          ← seu arquivo de entrada<br>
+├── valores_processado.csv   ← gerado automaticamente<br>
+└── README.md<br>
 
 Exemplo de valores.csv:
 
