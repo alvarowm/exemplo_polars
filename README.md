@@ -73,3 +73,7 @@ Ajuste a versão conforme necessário. A feature "fill_null" é necessária para
 - Exemplos oficiais no GitHub: https://github.com/pola-rs/polars/tree/master/examples
 
 Aproveite o poder do Polars para manipular dados com velocidade e elegância em Rust!
+
+<p align="center">
+<img src="https://github.com/alvarowm/brickchunkgame/blob/master/rust_button_icon_151922.svg" width="512" height="188" />
+</p>
