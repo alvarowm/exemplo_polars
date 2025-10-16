@@ -1,0 +1,134 @@
+use polars::prelude::*;
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // 1. Leitura do CSV
+    let dataframe = CsvReadOptions::default()
+        .with_has_header(true)
+        .try_into_reader_with_file_path(Some("C:\\Users\\D892630\\RustroverProjects\\PolarsExample\\src\\valores.csv".into()))
+        .expect("Não foi possível abrir o arquivo!")
+        .finish()?;
+
+    println!("=== DataFrame original ===");
+    println!("{:?}", dataframe);
+
+    // 2. Estatísticas básicas
+    println!("\n=== Estatísticas descritivas da coluna 'valor' ===");
+    let stats = dataframe.clone()
+        .lazy()
+        .select([
+            col("valor")
+                .mean()
+                .alias("média"),
+            col("valor")
+                .std(1) // ddof=1 (como no pandas)
+                .alias("desvio padrão"),
+            col("valor")
+                .min()
+                .alias("mínima"),
+            col("valor")
+                .max()
+                .alias("máxima"),
+            col("valor")
+                .count()
+                .alias("contagem"),
+        ])
+        .collect()?;
+
+    println!("{}", stats);
+
+    // 3. Filtragem: apenas registros com valor > 1000
+    let filtered = dataframe
+        .clone()
+        .lazy()
+        .filter(col("valor").gt(lit(1000.0)))
+        .collect()?;
+
+    println!("\n=== Filtrado: valor > 1000 ===");
+    println!("{:?}", filtered);
+
+
+    // 4. Ordenação por 'valor' decrescente
+    let sorted = dataframe
+        .clone()
+        .lazy()
+        .sort(["valor"], SortMultipleOptions::default().with_order_descending(true))
+        .collect()?;
+
+    println!("\n=== Ordenado por valor (decrescente) ===");
+    println!("{:?}", sorted);
+
+    // 5. Agrupamento por 'nome' e soma dos valores
+    let grouped = dataframe
+        .clone()
+        .lazy()
+        .group_by([col("nome")])
+        .agg([col("valor").sum()])
+        .collect()?;
+
+    println!("\n=== Soma de 'valor' por 'nome' ===");
+    println!("{:?}", grouped);
+
+    // 6. Criar nova coluna: valor dobrado
+    let with_double = dataframe
+        .clone()
+        .lazy()
+        .with_column((col("valor") * lit(2.0)).alias("valor_dobrado"))
+        .collect()?;
+
+    println!("\n=== Com coluna 'valor_dobrado' ===");
+    println!("{:?}", with_double);
+
+    // 7. Tratamento de nulos: remover linhas com valor nulo em 'nome' ou 'valor'
+    let no_nulls = dataframe
+        .clone()
+        .lazy()
+        .drop_nulls(None)
+        .collect()?;
+
+    println!("\n=== Sem linhas com nulos em 'nome' ou 'valor' ===");
+    println!("{:?}", no_nulls);
+
+    // 8. Preencher nulos com valor padrão (ex: "Desconhecido" e 0.0)
+    let filled = dataframe
+        .clone()
+        .lazy()
+        .with_columns(vec![
+            col("nome").fill_null_with_strategy(FillNullStrategy::Forward(None)),
+            col("valor").fill_null(lit(0.0)),
+        ])
+        .collect()?;
+
+    println!("\n=== Nulos preenchidos ===");
+    println!("{:?}", filled);
+
+    // 9. Junção (join) com outro DataFrame de exemplo
+    let dataframe2 = df!(
+        "categoria" => ["Notebook", "Mini PC"],
+        "detalhe" => ["promoção", "esgotado"]
+    )?;
+
+    let mut joined = dataframe
+        .clone()
+        .lazy()
+        .join(
+            dataframe2.lazy(),
+            [col("nome")],
+            [col("categoria")],
+            JoinArgs::new(JoinType::Left)
+        )
+        .collect()?;
+
+    println!("\n=== Join com DataFrame de categorias (left join) ===");
+    println!("{:?}", joined);
+
+    // 10. Salvar resultado em novo CSV
+    let output_path = "valores_processado.csv";
+    CsvWriter::new(std::fs::File::create(output_path)?)
+        .include_header(true)
+        .finish(&mut joined)?;
+
+    println!("\n✅ Resultado salvo em '{}'", output_path);
+
+    Ok(())
+
+}

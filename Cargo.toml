@@ -1,0 +1,8 @@
+[package]
+name = "PolarsExample"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+polars = { version = "0.45.0", features = ["full"] }
+
