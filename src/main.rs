@@ -4,7 +4,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 1. Leitura do CSV
     let dataframe = CsvReadOptions::default()
         .with_has_header(true)
-        .try_into_reader_with_file_path(Some("C:\\Users\\D892630\\RustroverProjects\\PolarsExample\\src\\valores.csv".into()))
+        .try_into_reader_with_file_path(Some("C:\\Users\\user\\RustroverProjects\\PolarsExample\\src\\valores.csv".into()))
         .expect("Não foi possível abrir o arquivo!")
         .finish()?;
 
